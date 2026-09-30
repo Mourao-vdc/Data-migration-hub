@@ -1,12 +1,15 @@
 package com.example.migration.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.migration.model.Customer;
 import com.example.migration.service.CustomerService;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,5 +34,11 @@ public class CustomerController{
     public Customer createCustomer(@RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
+
+    @DeleteMapping
+    public Customer deleteCustomer(@RequestParam String idCustomer) {
+        return customerService.deleteCustomer(idCustomer);
+    }
+
     
 }

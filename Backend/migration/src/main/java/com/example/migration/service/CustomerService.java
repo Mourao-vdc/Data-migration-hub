@@ -23,4 +23,13 @@ public class CustomerService {
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
+
+    public Customer deleteCustomer(String idCustomer) {
+        Customer customer = customerRepository.findById(idCustomer)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        customerRepository.delete(customer);
+
+        return customer;
+    }
 }
