@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -28,6 +29,11 @@ public class CustomerController{
     @GetMapping
     public List<Customer> getCustomers() {
         return customerService.getCustomers();
+    }
+
+    @GetMapping("/{idCustomer}")
+    public Customer getCustomer(@PathVariable String idCustomer) {
+        return customerService.getCustomer(idCustomer);
     }
 
     @PostMapping

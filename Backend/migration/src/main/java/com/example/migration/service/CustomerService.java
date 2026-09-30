@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.migration.exception.CustomerNotFoundException;
 import com.example.migration.model.Customer;
 import com.example.migration.repository.CustomerRepository;
 
@@ -20,13 +21,20 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    public Customer getCustomer(String idCustomer) {
+        Customer customer = customerRepository.findById(idCustomer)
+                .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
+
+        return customer;
+    }
+
     public Customer createCustomer(Customer customer) {
         return customerRepository.save(customer);
     }
 
     public Customer deleteCustomer(String idCustomer) {
         Customer customer = customerRepository.findById(idCustomer)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
 
         customerRepository.delete(customer);
 
