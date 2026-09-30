@@ -8,6 +8,8 @@ import com.example.migration.service.CustomerService;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -23,6 +25,11 @@ public class CustomerController{
     @GetMapping
     public List<Customer> getCustomers() {
         return customerService.getCustomers();
+    }
+
+    @PostMapping
+    public Customer createCustomer(@RequestBody Customer customer) {
+        return customerService.createCustomer(customer);
     }
     
 }
