@@ -32,6 +32,17 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    public Customer updateCustomer(String idCustomer, Customer customer) {
+        Customer existingCustomer = customerRepository.findById(idCustomer)
+                .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
+
+        existingCustomer.setFirstName(customer.getFirstName());
+        existingCustomer.setLastName(customer.getLastName());
+        existingCustomer.setEmail(customer.getEmail());
+
+        return customerRepository.save(existingCustomer);
+    }
+
     public Customer deleteCustomer(String idCustomer) {
         Customer customer = customerRepository.findById(idCustomer)
                 .orElseThrow(() -> new CustomerNotFoundException(idCustomer));
