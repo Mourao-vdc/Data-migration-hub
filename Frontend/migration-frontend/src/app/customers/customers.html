@@ -1,0 +1,87 @@
+<div class="customers-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Customers</h1>
+      <p>Manage and view your customers</p>
+    </div>
+
+    <div class="header-actions">
+      <span class="customer-count">{{ customers().length }} customers</span>
+      <button class="primary-button" (click)="openCreate()">+ New customer</button>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      {{ errorMessage() }}
+      <button (click)="errorMessage.set(null)">✕</button>
+    </div>
+  }
+
+  @if (showForm()) {
+    <form class="customer-form" [formGroup]="form" (ngSubmit)="save()">
+      <h2>{{ editingId() ? 'Edit customer' : 'New customer' }}</h2>
+
+      <label>
+        First name
+        <input formControlName="firstName" />
+        @if (form.controls.firstName.touched && form.controls.firstName.invalid) {
+          <small class="field-error">First name is required.</small>
+        }
+      </label>
+
+      <label>
+        Last name
+        <input formControlName="lastName" />
+        @if (form.controls.lastName.touched && form.controls.lastName.invalid) {
+          <small class="field-error">Last name is required.</small>
+        }
+      </label>
+
+      <label>
+        Email
+        <input type="email" formControlName="email" />
+        @if (form.controls.email.touched && form.controls.email.invalid) {
+          <small class="field-error">A valid email is required.</small>
+        }
+      </label>
+
+      <div class="form-actions">
+        <button type="button" class="view-button" (click)="cancel()">Cancel</button>
+        <button type="submit" class="primary-button">Save</button>
+      </div>
+    </form>
+  }
+
+  @if (customers().length > 0) {
+    <div class="customers-grid">
+      @for (customer of customers(); track customer.id) {
+        <article class="customer-card">
+
+          <div class="avatar">
+            {{ customer.firstName.charAt(0) }}{{ customer.lastName.charAt(0) }}
+          </div>
+
+          <div class="customer-info">
+            <h2>{{ customer.firstName }} {{ customer.lastName }}</h2>
+            <p>{{ customer.email }}</p>
+          </div>
+
+          <div class="card-actions">
+            <button class="view-button" (click)="openEdit(customer)">Edit</button>
+            <button class="delete-button" (click)="delete(customer)">Delete</button>
+          </div>
+
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="empty-state">
+      <div class="empty-icon">👥</div>
+      <h2>No customers found</h2>
+      <p>There are currently no customers to display.</p>
+    </div>
+  }
+
+</div>
