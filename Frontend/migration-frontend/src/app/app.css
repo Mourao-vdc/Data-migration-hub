@@ -1,0 +1,29 @@
+.app-nav {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.app-nav .brand { font-weight: 700; }
+
+.app-nav nav { display: flex; gap: 4px; }
+
+.app-nav a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #4b5563;
+  text-decoration: none;
+}
+
+.app-nav a:hover { background: #f3f4f6; }
+
+.app-nav a.active {
+  background: #4f46e5;
+  color: #fff;
+}

@@ -1,0 +1,172 @@
+<div class="migration-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Data Migration</h1>
+      <p>Migrate customers from different legacy sources.</p>
+    </div>
+  </div>
+
+  <div class="source-selector">
+    <button
+      [class.active]="selectedSource() === 'A'"
+      (click)="selectSource('A')">
+      Source A
+    </button>
+
+    <button
+      [class.active]="selectedSource() === 'B'"
+      (click)="selectSource('B')">
+      Source B
+    </button>
+  </div>
+
+  @if (successMessage()) {
+    <div class="success-banner">
+      {{ successMessage() }}
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-banner">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (selectedSource() === 'A') {
+
+    <form
+      class="migration-form"
+      [formGroup]="sourceAForm"
+      (ngSubmit)="migrate()">
+
+      <h2>Source A</h2>
+      <p class="form-description">
+        Legacy system with a flat customer structure.
+      </p>
+
+      <label>
+        Customer ID
+        <input type="number" formControlName="customerId">
+
+        @if (
+          sourceAForm.controls.customerId.touched &&
+          sourceAForm.controls.customerId.invalid
+        ) {
+          <small class="field-error">
+            Customer ID is required.
+          </small>
+        }
+      </label>
+
+      <label>
+        Full name
+        <input formControlName="fullName">
+
+        @if (
+          sourceAForm.controls.fullName.touched &&
+          sourceAForm.controls.fullName.invalid
+        ) {
+          <small class="field-error">
+            Full name is required.
+          </small>
+        }
+      </label>
+
+      <label>
+        Email address
+        <input type="email" formControlName="emailAddress">
+
+        @if (
+          sourceAForm.controls.emailAddress.touched &&
+          sourceAForm.controls.emailAddress.invalid
+        ) {
+          <small class="field-error">
+            A valid email is required.
+          </small>
+        }
+      </label>
+
+      <button type="submit" class="primary-button">
+        Migrate customer
+      </button>
+
+    </form>
+  }
+
+  @if (selectedSource() === 'B') {
+
+    <form
+      class="migration-form"
+      [formGroup]="sourceBForm"
+      (ngSubmit)="migrate()">
+
+      <h2>Source B</h2>
+      <p class="form-description">
+        Legacy system with a different structure and nested contact data.
+      </p>
+
+      <label>
+        Client code
+        <input formControlName="clientCode">
+
+        @if (
+          sourceBForm.controls.clientCode.touched &&
+          sourceBForm.controls.clientCode.invalid
+        ) {
+          <small class="field-error">
+            Client code is required.
+          </small>
+        }
+      </label>
+
+      <label>
+        First name
+        <input formControlName="firstName">
+
+        @if (
+          sourceBForm.controls.firstName.touched &&
+          sourceBForm.controls.firstName.invalid
+        ) {
+          <small class="field-error">
+            First name is required.
+          </small>
+        }
+      </label>
+
+      <label>
+        Surname
+        <input formControlName="surname">
+
+        @if (
+          sourceBForm.controls.surname.touched &&
+          sourceBForm.controls.surname.invalid
+        ) {
+          <small class="field-error">
+            Surname is required.
+          </small>
+        }
+      </label>
+
+      <label>
+        Email
+        <input type="email" formControlName="email">
+
+        @if (
+          sourceBForm.controls.email.touched &&
+          sourceBForm.controls.email.invalid
+        ) {
+          <small class="field-error">
+            A valid email is required.
+          </small>
+        }
+      </label>
+
+      <button type="submit" class="primary-button">
+        Migrate customer
+      </button>
+
+    </form>
+  }
+
+</div>

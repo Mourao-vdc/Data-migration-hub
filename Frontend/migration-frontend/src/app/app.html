@@ -1,1 +1,12 @@
-   <router-outlet />
+<header class="app-nav">
+  <span class="brand">Admin</span>
+
+  <nav>
+    <a routerLink="/customers" routerLinkActive="active">Customers</a>
+    <a routerLink="/migration" routerLinkActive="active">Migration</a>
+  </nav>
+</header>
+
+<main>
+  <router-outlet />
+</main>
