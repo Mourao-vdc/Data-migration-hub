@@ -21,18 +21,6 @@
     </button>
   </div>
 
-  @if (successMessage()) {
-    <div class="success-banner">
-      {{ successMessage() }}
-    </div>
-  }
-
-  @if (errorMessage()) {
-    <div class="error-banner">
-      {{ errorMessage() }}
-    </div>
-  }
-
   @if (selectedSource() === 'A') {
 
     <form

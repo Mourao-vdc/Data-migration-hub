@@ -12,13 +12,6 @@
     </div>
   </div>
 
-  @if (errorMessage()) {
-    <div class="error-banner">
-      {{ errorMessage() }}
-      <button (click)="errorMessage.set(null)">✕</button>
-    </div>
-  }
-
   @if (showForm()) {
     <form class="customer-form" [formGroup]="form" (ngSubmit)="save()">
       <h2>{{ editingId() ? 'Edit customer' : 'New customer' }}</h2>

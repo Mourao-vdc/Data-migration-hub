@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import {CustomerService} from '../customers/customer-service';
 import { LegacyCustomerARequest, LegacyCustomerBRequest } from '../customers/customer';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-migration',
@@ -13,10 +14,9 @@ export class Migration {
 
   private customerService = inject(CustomerService);
   private fb = inject(FormBuilder);
+  private toastr = inject(ToastrService);
 
   selectedSource = signal<'A' | 'B'>('A');
-  successMessage = signal<string | null>(null);
-  errorMessage = signal<string | null>(null);
 
   sourceAForm = this.fb.nonNullable.group({
     customerId: [0, Validators.required],
@@ -33,14 +33,9 @@ export class Migration {
 
   selectSource(source: 'A' | 'B') {
     this.selectedSource.set(source);
-    this.successMessage.set(null);
-    this.errorMessage.set(null);
   }
 
   migrate() {
-    this.successMessage.set(null);
-    this.errorMessage.set(null);
-
     if (this.selectedSource() === 'A') {
       this.migrateSourceA();
     } else {
@@ -64,7 +59,7 @@ export class Migration {
 
     this.customerService.migrateFromSourceA(request).subscribe({
       next: () => {
-        this.successMessage.set(
+        this.toastr.success(
           'Customer from Source A migrated successfully.'
         );
         this.sourceAForm.reset({
@@ -74,7 +69,7 @@ export class Migration {
         });
       },
       error: () => {
-        this.errorMessage.set(
+        this.toastr.error(
           'Failed to migrate customer from Source A.'
         );
       },
@@ -100,7 +95,7 @@ export class Migration {
 
     this.customerService.migrateFromSourceB(request).subscribe({
       next: () => {
-        this.successMessage.set(
+        this.toastr.success(
           'Customer from Source B migrated successfully.'
         );
         this.sourceBForm.reset({
@@ -111,7 +106,7 @@ export class Migration {
         });
       },
       error: () => {
-        this.errorMessage.set(
+        this.toastr.error(
           'Failed to migrate customer from Source B.'
         );
       },

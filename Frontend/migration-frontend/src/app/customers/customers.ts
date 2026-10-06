@@ -2,6 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CustomerService } from './customer-service';
 import { Customer } from './customer';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-customers',
@@ -12,6 +13,7 @@ import { Customer } from './customer';
 export class Customers {
   private customerService = inject(CustomerService);
   private fb = inject(FormBuilder);
+  private toastr = inject(ToastrService);
 
   customers = signal<Customer[]>([]);
   showForm = signal(false);
@@ -31,7 +33,7 @@ export class Customers {
   loadCustomers() {
     this.customerService.getCustomers().subscribe({
       next: (data) => this.customers.set(data),
-      error: () => this.errorMessage.set('Failed to load customers.'),
+      error: () => this.toastr.error('Failed to load customers.'),
     });
   }
 
@@ -74,8 +76,16 @@ export class Customers {
       next: () => {
         this.cancel();
         this.loadCustomers();
+
+        if (id) {
+          this.toastr.success('Customer updated successfully.');
+        } else {
+          this.toastr.success('Customer created successfully.');
+        }
       },
-      error: () => this.errorMessage.set('Failed to save customer.'),
+      error: () => {
+        this.toastr.error('Failed to save customer.');
+      },
     });
   }
 
@@ -83,8 +93,13 @@ export class Customers {
     if (!confirm(`Delete ${customer.firstName} ${customer.lastName}?`)) return;
 
     this.customerService.deleteCustomer(customer.id).subscribe({
-      next: () => this.loadCustomers(),
-      error: () => this.errorMessage.set('Failed to delete customer.'),
+      next: () => {
+        this.loadCustomers();
+        this.toastr.success('Customer deleted successfully.');
+      },
+      error: () => {
+        this.toastr.error('Failed to delete customer.');
+      },
     });
   }
 }
