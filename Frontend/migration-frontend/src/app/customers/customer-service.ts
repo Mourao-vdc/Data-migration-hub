@@ -40,4 +40,22 @@ export class CustomerService {
       customer
     );
   }
+
+  migrateAllFromSourceA(
+    customers: LegacyCustomerARequest[]
+  ): Observable<Customer[]> {
+    return this.http.post<Customer[]>(
+      `${this.migrationApiUrl}/source-a/bulk`,
+      customers
+    );
+  }
+
+  migrateAllFromSourceB(
+    customers: LegacyCustomerBRequest[]
+  ): Observable<Customer[]> {
+    return this.http.post<Customer[]>(
+      `${this.migrationApiUrl}/source-b/bulk`,
+      customers
+    );
+  }
 }

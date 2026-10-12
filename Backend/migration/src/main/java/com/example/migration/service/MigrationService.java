@@ -1,6 +1,7 @@
 package com.example.migration.service;
 
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import com.example.migration.model.Customer;
 import com.example.migration.model.LegacyCustomerA;
@@ -38,5 +39,48 @@ public class MigrationService {
         customer.setEmail(legacy.getContact().getEmail());
 
         return customerRepository.save(customer);
+    }
+
+    public List<Customer> migrateAllFromSourceA(
+            List<LegacyCustomerA> legacyCustomers) {
+
+        List<Customer> customers = legacyCustomers.stream()
+                .map(legacy -> {
+                    Customer customer = new Customer();
+
+                    String fullName = legacy.getFullName().trim();
+                    String[] name = fullName.split("\\s+", 2);
+
+                    customer.setFirstName(name[0]);
+                    customer.setLastName(
+                            name.length > 1 ? name[1] : ""
+                    );
+                    customer.setEmail(legacy.getEmailAddress());
+
+                    return customer;
+                })
+                .toList();
+
+        return customerRepository.saveAll(customers);
+    }
+
+    public List<Customer> migrateAllFromSourceB(
+            List<LegacyCustomerB> legacyCustomers) {
+
+        List<Customer> customers = legacyCustomers.stream()
+                .map(legacy -> {
+                    Customer customer = new Customer();
+
+                    customer.setFirstName(legacy.getFirstName());
+                    customer.setLastName(legacy.getSurname());
+                    customer.setEmail(
+                            legacy.getContact().getEmail()
+                    );
+
+                    return customer;
+                })
+                .toList();
+
+        return customerRepository.saveAll(customers);
     }
 }

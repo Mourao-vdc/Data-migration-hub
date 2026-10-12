@@ -1,5 +1,7 @@
 package com.example.migration.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +34,19 @@ public class MigrationController {
             @RequestBody LegacyCustomerB legacyCustomerB) {
 
         return migrationService.migrateFromSourceB(legacyCustomerB);
+    }
+
+    @PostMapping("/source-a/bulk")
+    public List<Customer> migrateAllFromSourceA(
+            @RequestBody List<LegacyCustomerA> customers) {
+
+        return migrationService.migrateAllFromSourceA(customers);
+    }
+
+    @PostMapping("/source-b/bulk")
+    public List<Customer> migrateAllFromSourceB(
+            @RequestBody List<LegacyCustomerB> customers) {
+
+        return migrationService.migrateAllFromSourceB(customers);
     }
 }

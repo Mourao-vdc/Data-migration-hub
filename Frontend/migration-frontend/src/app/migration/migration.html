@@ -9,152 +9,252 @@
 
   <div class="source-selector">
     <button
+      type="button"
       [class.active]="selectedSource() === 'A'"
       (click)="selectSource('A')">
       Source A
     </button>
 
     <button
+      type="button"
       [class.active]="selectedSource() === 'B'"
       (click)="selectSource('B')">
       Source B
     </button>
   </div>
 
-  @if (selectedSource() === 'A') {
+  <div class="migration-mode-selector">
+    <button
+      type="button"
+      [class.active]="selectedMode() === 'single'"
+      (click)="selectMode('single')">
+      <span>Single customer</span>
+      <small>Migrate one customer manually</small>
+    </button>
 
-    <form
-      class="migration-form"
-      [formGroup]="sourceAForm"
-      (ngSubmit)="migrate()">
+    <button
+      type="button"
+      [class.active]="selectedMode() === 'bulk'"
+      (click)="selectMode('bulk')">
+      <span>Bulk import</span>
+      <small>Import multiple customers from JSON</small>
+    </button>
+  </div>
 
-      <h2>Source A</h2>
-      <p class="form-description">
-        Legacy system with a flat customer structure.
-      </p>
+  @if (selectedMode() === 'single') {
 
-      <label>
-        Customer ID
-        <input type="number" formControlName="customerId">
+    @if (selectedSource() === 'A') {
 
-        @if (
-          sourceAForm.controls.customerId.touched &&
-          sourceAForm.controls.customerId.invalid
-        ) {
-          <small class="field-error">
-            Customer ID is required.
-          </small>
-        }
-      </label>
+      <form
+        class="migration-form"
+        [formGroup]="sourceAForm"
+        (ngSubmit)="migrate()">
 
-      <label>
-        Full name
-        <input formControlName="fullName">
+        <h2>Source A</h2>
 
-        @if (
-          sourceAForm.controls.fullName.touched &&
-          sourceAForm.controls.fullName.invalid
-        ) {
-          <small class="field-error">
-            Full name is required.
-          </small>
-        }
-      </label>
+        <p class="form-description">
+          Legacy system with a flat customer structure.
+        </p>
 
-      <label>
-        Email address
-        <input type="email" formControlName="emailAddress">
+        <label>
+          Customer ID
+          <input type="number" formControlName="customerId">
 
-        @if (
-          sourceAForm.controls.emailAddress.touched &&
-          sourceAForm.controls.emailAddress.invalid
-        ) {
-          <small class="field-error">
-            A valid email is required.
-          </small>
-        }
-      </label>
+          @if (
+            sourceAForm.controls.customerId.touched &&
+            sourceAForm.controls.customerId.invalid
+          ) {
+            <small class="field-error">
+              Customer ID is required.
+            </small>
+          }
+        </label>
 
-      <button type="submit" class="primary-button">
-        Migrate customer
-      </button>
+        <label>
+          Full name
+          <input formControlName="fullName">
 
-    </form>
+          @if (
+            sourceAForm.controls.fullName.touched &&
+            sourceAForm.controls.fullName.invalid
+          ) {
+            <small class="field-error">
+              Full name is required.
+            </small>
+          }
+        </label>
+
+        <label>
+          Email address
+          <input type="email" formControlName="emailAddress">
+
+          @if (
+            sourceAForm.controls.emailAddress.touched &&
+            sourceAForm.controls.emailAddress.invalid
+          ) {
+            <small class="field-error">
+              A valid email is required.
+            </small>
+          }
+        </label>
+
+        <button type="submit" class="primary-button">
+          Migrate customer
+        </button>
+
+      </form>
+    }
+
+    @if (selectedSource() === 'B') {
+
+      <form
+        class="migration-form"
+        [formGroup]="sourceBForm"
+        (ngSubmit)="migrate()">
+
+        <h2>Source B</h2>
+
+        <p class="form-description">
+          Legacy system with a different structure and nested contact data.
+        </p>
+
+        <label>
+          Client code
+          <input formControlName="clientCode">
+
+          @if (
+            sourceBForm.controls.clientCode.touched &&
+            sourceBForm.controls.clientCode.invalid
+          ) {
+            <small class="field-error">
+              Client code is required.
+            </small>
+          }
+        </label>
+
+        <label>
+          First name
+          <input formControlName="firstName">
+
+          @if (
+            sourceBForm.controls.firstName.touched &&
+            sourceBForm.controls.firstName.invalid
+          ) {
+            <small class="field-error">
+              First name is required.
+            </small>
+          }
+        </label>
+
+        <label>
+          Surname
+          <input formControlName="surname">
+
+          @if (
+            sourceBForm.controls.surname.touched &&
+            sourceBForm.controls.surname.invalid
+          ) {
+            <small class="field-error">
+              Surname is required.
+            </small>
+          }
+        </label>
+
+        <label>
+          Email
+          <input type="email" formControlName="email">
+
+          @if (
+            sourceBForm.controls.email.touched &&
+            sourceBForm.controls.email.invalid
+          ) {
+            <small class="field-error">
+              A valid email is required.
+            </small>
+          }
+        </label>
+
+        <button type="submit" class="primary-button">
+          Migrate customer
+        </button>
+
+      </form>
+    }
   }
 
-  @if (selectedSource() === 'B') {
+  @if (selectedMode() === 'bulk') {
 
-    <form
-      class="migration-form"
-      [formGroup]="sourceBForm"
-      (ngSubmit)="migrate()">
+    <section class="migration-form">
 
-      <h2>Source B</h2>
-      <p class="form-description">
-        Legacy system with a different structure and nested contact data.
-      </p>
+      @if (selectedSource() === 'A') {
+        <h2>Bulk import — Source A</h2>
+        <p class="form-description">
+          Import a JSON array containing customerId, fullName
+          and emailAddress.
+        </p>
+      } @else {
+        <h2>Bulk import — Source B</h2>
+        <p class="form-description">
+          Import a JSON array containing clientCode, firstName,
+          surname and nested contact.email.
+        </p>
+      }
 
-      <label>
-        Client code
-        <input formControlName="clientCode">
-
-        @if (
-          sourceBForm.controls.clientCode.touched &&
-          sourceBForm.controls.clientCode.invalid
-        ) {
-          <small class="field-error">
-            Client code is required.
-          </small>
-        }
+      <label for="jsonFile">
+        Select JSON file
       </label>
 
-      <label>
-        First name
-        <input formControlName="firstName">
+      <input
+        #fileInput
+        id="jsonFile"
+        class="file-input"
+        type="file"
+        accept=".json,application/json"
+        (change)="onFileSelected($event)"
+        [disabled]="isImporting()">
 
-        @if (
-          sourceBForm.controls.firstName.touched &&
-          sourceBForm.controls.firstName.invalid
-        ) {
-          <small class="field-error">
-            First name is required.
-          </small>
-        }
-      </label>
+      @if (selectedFileName()) {
+        <div class="file-info">
+          <span>{{ selectedFileName() }}</span>
+          <span>{{ customerCount() }} customers found</span>
+        </div>
+      }
 
-      <label>
-        Surname
-        <input formControlName="surname">
+      @if (customerCount() > 0) {
+        <div class="import-summary">
+          <h3>Ready to import</h3>
+          <p>
+            {{ customerCount() }} customers will be transformed
+            into the common Customer model and saved in MongoDB.
+          </p>
+        </div>
+      }
 
-        @if (
-          sourceBForm.controls.surname.touched &&
-          sourceBForm.controls.surname.invalid
-        ) {
-          <small class="field-error">
-            Surname is required.
-          </small>
-        }
-      </label>
+      <div class="form-actions">
+        <button
+          type="button"
+          class="view-button"
+          (click)="clearFile()"
+          [disabled]="isImporting() || customerCount() === 0">
+          Clear file
+        </button>
 
-      <label>
-        Email
-        <input type="email" formControlName="email">
+        <button
+          type="button"
+          class="primary-button"
+          (click)="migrate()"
+          [disabled]="isImporting() || customerCount() === 0">
 
-        @if (
-          sourceBForm.controls.email.touched &&
-          sourceBForm.controls.email.invalid
-        ) {
-          <small class="field-error">
-            A valid email is required.
-          </small>
-        }
-      </label>
+          @if (isImporting()) {
+            Importing...
+          } @else {
+            Import customers
+          }
 
-      <button type="submit" class="primary-button">
-        Migrate customer
-      </button>
+        </button>
+      </div>
 
-    </form>
+    </section>
   }
 
 </div>

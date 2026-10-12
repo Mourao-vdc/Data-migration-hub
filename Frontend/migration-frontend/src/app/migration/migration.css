@@ -116,3 +116,91 @@
   border-radius: 8px;
   margin-bottom: 20px;
 }
+
+.migration-mode-selector {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.migration-mode-selector button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid #dbe2ea;
+  border-radius: 10px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.migration-mode-selector button span {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.migration-mode-selector button small {
+  color: #64748b;
+  font-size: 13px;
+}
+
+.migration-mode-selector button.active {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.file-input {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px dashed #b8c2d0;
+  border-radius: 8px;
+  background: #f8fafc;
+  box-sizing: border-box;
+}
+
+.file-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  overflow-wrap: anywhere;
+}
+
+.import-summary {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #dbe4ee;
+  border-radius: 8px;
+}
+
+.import-summary h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.import-summary p {
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
+.form-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .migration-mode-selector {
+    grid-template-columns: 1fr;
+  }
+}
