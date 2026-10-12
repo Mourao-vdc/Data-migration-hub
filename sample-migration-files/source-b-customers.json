@@ -1,0 +1,26 @@
+[
+  {
+    "clientCode": "C-2001",
+    "firstName": "Ana",
+    "surname": "Silva",
+    "contact": {
+      "email": "ana.silva@example.com"
+    }
+  },
+  {
+    "clientCode": "C-2002",
+    "firstName": "Pedro",
+    "surname": "Santos",
+    "contact": {
+      "email": "pedro.santos@example.com"
+    }
+  },
+  {
+    "clientCode": "C-2003",
+    "firstName": "Maria",
+    "surname": "Ferreira",
+    "contact": {
+      "email": "maria.ferreira@example.com"
+    }
+  }
+]
